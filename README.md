@@ -1,86 +1,110 @@
-📖 AccessReader: Decodificando la Web para Todos
+# 👁️ AccessVault: Inclusión Documental en BSV
 
-Un "filtro accesible" para internet. Transformamos el caos de la web en una experiencia de lectura limpia, audible y, gracias a BSV, eterna.
+[![Hackathon](https://img.shields.io/badge/Hackathon-Web3_2025-blueviolet?style=for-the-badge)](https://www.mmerge.io/es/hackathon-2025)
+[![Challenge](https://img.shields.io/badge/Challenge-Fundación%20ONCE-yellow?style=for-the-badge&logo=accessibility)](https://www.fundaciononce.es/)
+[![Powered By](https://img.shields.io/badge/Powered_by-mMerge-00D1FF?style=for-the-badge)](https://www.mmerge.io/)
+[![BSV](https://img.shields.io/badge/Blockchain-BSV-e9b20e?style=for-the-badge&logo=bitcoin)](https://bitcoinsv.com/)
 
-📽️ Demo
+> **Gestión de documentación vital para personas invidentes: Sin barreras visuales, asegurada por Blockchain.**
 
-<!-- Enlace a vuestro video o deploy -->
+---
 
-🌐 Probar AccessReader | 📺 Ver Pitch (1 min)
+## 📽️ Demo & Pitch
+[🌐 Probar Aplicación (Deploy)](#) | [📺 Ver Video Pitch (1 min)](#)
 
-🧐 El Problema (Contexto ONCE)
+---
 
-Las personas con ceguera o baja visión navegan por una web hostil:
+## 🎯 El Reto: Fundación ONCE
+Las personas ciegas se enfrentan a un **"abismo digital"** en la burocracia actual:
+1.  **Inseguridad:** Transportar papeles físicos importantes (certificados de discapacidad, DNI) es un riesgo.
+2.  **Dependencia:** Los portales web actuales no son semánticos, obligando al usuario a pedir ayuda a terceros para leer datos privados.
+3.  **Gestión de Wallets:** Las wallets cripto tradicionales (con frases semilla y QRs) son prácticamente imposibles de usar con un lector de pantalla.
 
-Ruido Estructural: Banners, menús mal etiquetados y pop-ups confunden a los lectores de pantalla.
+## 💡 Nuestra Solución: AccessVault
+Hemos creado una **billetera documental auditiva**. Una aplicación donde la interfaz gráfica es secundaria y la estructura semántica es prioritaria.
 
-Fatiga Visual: Tipografías pequeñas y bajo contraste hacen ilegible el contenido para personas con resto visual.
+Utilizamos la blockchain de **BSV** para crear un registro inmutable de la documentación del usuario, permitiéndole compartir permisos o demostrar la validez de un papel sin necesidad de verlo físicamente.
 
-Fugacidad: El contenido accesible es escaso. Si una web cambia su diseño, la accesibilidad se rompe.
+---
 
-💡 La Solución: AccessReader
+## ⚙️ Arquitectura Técnica (BSV & mMerge)
 
-AccessReader es una herramienta que ingiere contenido (URLs o texto pegado) y lo re-renderiza en un entorno controlado estrictamente accesible.
+Para cumplir con el requisito de accesibilidad extrema, hemos descartado las wallets de navegador tradicionales (como plugins) y hemos integrado **mMerge**.
 
-Funcionalidades Clave (MVP)
+### ¿Por qué mMerge para la ONCE?
+La integración con [mMerge](https://www.mmerge.io/) nos permite una **abstracción de cuenta**.
+* El usuario invidente se loguea con métodos estándar (Email/Social) que ya sabe navegar.
+* No hay gestión de *seed phrases* compleja ni escaneo visual de QRs.
+* La firma de transacciones ocurre en un entorno seguro y accesible.
 
-👁️ Modo Lectura Puro: Elimina todo el CSS original y presenta el texto en una sola columna con jerarquía semántica clara.
+### Flujo de Datos
+```mermaid
+sequenceDiagram
+    participant U as Usuario (Screen Reader)
+    participant F as Frontend (A11y First)
+    participant M as mMerge SDK
+    participant B as BSV Blockchain
 
-🗣️ Text-to-Speech (TTS) Nativo: Lectura en voz alta con controles de velocidad y pausa, sin depender de software externo caro.
-
-🎨 Personalización Extrema: Temas de Alto Contraste (Blanco/Negro, Amarillo/Negro) y escalado de fuentes masivo.
-
-⛓️ Guardado Inmutable (BSV): ¿Te gusta este artículo? Guárdalo en la blockchain de Bitcoin SV. Será accesible para siempre, sin censura y sin cambios de diseño.
-
-⚙️ Integración Blockchain (El Valor de BSV)
-
-Usamos BSV a través de mMerge para convertir la accesibilidad efímera en permanente.
-
-Identidad Simplificada (mMerge): El usuario se loguea con su cuenta social (sin seed phrases complicadas).
-
-On-Chain Storage: Al pulsar "Guardar en Biblioteca", el texto procesado y limpio se sube a la blockchain.
-
-Beneficio: Creamos una biblioteca descentralizada de conocimiento accesible.
-
-graph LR
-    A[Web Caótica] -->|Copiar URL| B(AccessReader Engine)
-    B -->|Limpieza| C[Vista Accesible]
-    C -->|Lectura TTS| D[Usuario (Audio)]
-    C -->|Guardar| E{mMerge SDK}
-    E -->|Transacción| F[BSV Blockchain]
-    F -->|Persistencia| G[Biblioteca Eterna]
-
+    U->>F: "Subir Certificado Discapacidad" (Comando Voz/Teclado)
+    F->>M: Solicitar Firma Digital
+    Note right of M: Autenticación sin fricción visual
+    M->>B: Transacción on-chain (Hash del doc)
+    B-->>F: Confirmación (TXID)
+    F-->>U: Feedback Auditivo "Documento guardado seguro"
 
 🛠️ Tech Stack
 
-Frontend: React (Vite) + TailwindCSS.
+    Frontend: React / Next.js (Optimizado con roles ARIA y navegación por teclado).
 
-Accesibilidad: Web Speech API (Nativa del navegador), ARIA live regions.
+    Identidad & Wallet: mMerge API (Gestión de usuarios y firmas).
 
-Blockchain: mMerge API + BSV SDK.
+    Blockchain Data: BSV SDK para la construcción de transacciones.
 
-Sanitización: DOMPurify (para limpiar HTML entrante).
+    Lectura Rápida: fast.brc.dev para recuperar el estado de los documentos instantáneamente.
 
-🚀 Guía de Uso Rápido
+    Accesibilidad: Tests automatizados con axe-core.
 
-Entrada: Pega una URL o un texto en el campo principal.
+♿ Características de Accesibilidad (A11y)
 
-Ajuste: Usa TAB para navegar a los controles de fuente y contraste.
+Nuestra prioridad en el desarrollo ha sido el cumplimiento WCAG 2.1 AAA:
 
-Escucha: Pulsa ESPACIO en el botón de reproducción para iniciar la síntesis de voz.
+    Skip Links: Navegación directa al contenido principal para evitar menús repetitivos.
 
-Guarda: Si quieres conservar el texto, pulsa en "Guardar en BSV".
+    Etiquetado Semántico: Uso estricto de <main>, <nav>, <article> y aria-live para notificaciones dinámicas (ej: cuando una transacción de BSV se completa).
 
-👥 Equipo "AccessTeam"
+    Contraste y Tipografía: Interfaz en alto contraste por defecto.
 
-Juan Labajo - Frontend & A11y Specialist
+    Feedback Sonoro: Sonidos distintivos para éxito/error en operaciones blockchain.
 
-Mario Ibañez - Blockchain Lead
+🚀 Instalación Local
 
-Iván Sanz - Backend & Logic
+    Clonar repositorio:
+    Bash
 
-Álvaro Hernández - Product & UX
+git clone [https://github.com/tu-repo/access-vault.git](https://github.com/tu-repo/access-vault.git)
 
-📄 Licencia
+Instalar dependencias:
+Bash
 
-MIT License. Hackathon Web3 2025.
+npm install
+
+Configuración mMerge: Crea un archivo .env con las credenciales obtenidas en el portal de mMerge:
+Bash
+
+NEXT_PUBLIC_MMERGE_API_KEY=tu_api_key_aqui
+NEXT_PUBLIC_BSV_NETWORK=testnet
+
+Ejecutar:
+Bash
+
+    npm run dev
+
+👥 Equipo de Desarrollo
+
+    Juan Labajo - Frontend & A11y
+
+    Mario Ibañez - BSV Integration
+
+    Iván Sanz - Backend Logic
+
+    Álvaro Hernández - UX/UI & Product
