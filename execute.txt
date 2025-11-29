@@ -1,0 +1,8 @@
+terminal 1
+npm run server
+
+terminal 2
+
+curl.exe -X POST http://localhost:3001/api/payments/verify
+
+npm start
