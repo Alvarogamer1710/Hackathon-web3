@@ -134,6 +134,49 @@ app.get("/api/page", async (req: Request, res: Response): Promise<any> => {
             timeout: 60000, // Aumentado a 60s por si la web es pesada
         });
 
+        // 🔹 Intentar aceptar / cerrar cookies y quitar overlays
+        await page.waitForTimeout(2000); // damos un pequeño margen a que salga el banner
+
+        await page.evaluate(() => {
+            // 1) Intentar hacer click en algún botón típico de aceptar
+            const textosPosibles = ["aceptar", "accept", "consentir", "ok", "entendido"];
+            const candidatos = Array.from(
+                document.querySelectorAll("button, [role='button'], input[type='button'], input[type='submit']")
+            ) as HTMLElement[];
+
+            for (const el of candidatos) {
+                const texto = el.innerText?.toLowerCase() || (el.getAttribute("value") || "").toLowerCase();
+                if (texto && textosPosibles.some(t => texto.includes(t))) {
+                    el.click();
+                    break;
+                }
+            }
+
+            // 2) Eliminar overlays/banners típicos de cookies
+            const selectoresCookie = [
+                "[id*='cookie']",
+                "[class*='cookie']",
+                "[id*='consent']",
+                "[class*='consent']",
+                "[id*='gdpr']",
+                "[class*='gdpr']",
+                "[aria-label*='cookies']"
+            ];
+            selectoresCookie.forEach(sel => {
+                document.querySelectorAll(sel).forEach(el => {
+                    // Solo si parecen overlays/baners (no toques cosas pequeñas)
+                    const style = window.getComputedStyle(el);
+                    if (
+                        style.position === "fixed" ||
+                        style.position === "sticky" ||
+                        style.zIndex === "2147483647"
+                    ) {
+                        el.remove();
+                    }
+                });
+            });
+        });
+
         // 🔹 1. Datos básicos
         const title = await page.title();
         const html = await page.content();
