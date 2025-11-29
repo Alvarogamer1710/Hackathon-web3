@@ -1,0 +1,440 @@
+/* src/frontend/styles/global.css */
+
+/* ───────────────── Reset básico ───────────────── */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 18px; /* base grandecita para baja visión */
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+    background-color: #0f172a; /* azul grisáceo oscuro de fondo */
+    color: #e5e7eb;
+}
+
+/* Enlaces */
+
+a {
+    color: #60a5fa; /* azul claro */
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Enfoque visible teclado */
+
+:focus-visible {
+    outline: 3px solid #facc15; /* amarillo, visible para casi todos los tipos de daltonismo */
+    outline-offset: 3px;
+}
+
+/* ───────────────── Contenedor general ───────────────── */
+
+.app-container {
+    min-height: 100vh;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+/* “Tarjeta” central donde vive toda la app */
+
+.home-page,
+.reader-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Modo alto contraste / daltónicos */
+.app-container.high-contrast {
+    background-color: #020617; /* aún más oscuro */
+    color: #f9fafb;
+}
+
+.app-container.high-contrast a {
+    color: #38bdf8; /* cian brillante */
+}
+
+/* ───────────────── Skip link ───────────────── */
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: #111827;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    z-index: 1000;
+    border-radius: 0 0 6px 6px;
+}
+
+.skip-link:focus-visible {
+    left: 1rem;
+    top: 1rem;
+}
+
+/* ───────────────── HOME (pantalla inicial) ───────────────── */
+
+.home-header {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-radius: 18px;
+    padding: 1.75rem 2rem;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.6);
+    border: 1px solid #1f2937;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.home-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+}
+
+.home-header p {
+    margin: 0;
+    max-width: 40rem;
+    line-height: 1.6;
+    color: #d1d5db;
+}
+
+.home-main {
+    margin-top: 1rem;
+}
+
+/* En modo daltónicos / alto contraste */
+
+.app-container.high-contrast .home-header {
+    background: linear-gradient(135deg, #020617, #0b1120);
+    border-color: #1d283a;
+}
+
+/* ───────────────── FORMULARIO URL ───────────────── */
+
+label {
+    font-weight: 600;
+}
+
+/* Tarjeta del formulario */
+
+.url-form {
+    background-color: #020617;
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 16px 35px rgba(15, 23, 42, 0.7);
+    border: 1px solid #1f2937;
+    max-width: 760px;
+}
+
+.url-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.url-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* Campo URL */
+
+.url-form input[type="url"] {
+    flex: 1 1 260px;
+    padding: 0.7rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid #4b5563;
+    font-size: 1rem;
+    min-height: 46px;
+    background-color: #020617;
+    color: #e5e7eb;
+}
+
+.url-form input[type="url"]::placeholder {
+    color: #6b7280;
+}
+
+.url-form input[type="url"]:focus-visible {
+    border-color: #60a5fa;
+}
+
+/* Botón principal */
+
+.url-form button {
+    padding: 0.7rem 1.6rem;
+    border-radius: 999px;
+    border: none;
+    background-color: #60a5fa; /* azul claro */
+    color: #020617;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem;
+    min-height: 46px;
+    letter-spacing: 0.03em;
+}
+
+.url-form button:hover {
+    background-color: #3b82f6;
+}
+
+.url-form button:active {
+    background-color: #2563eb;
+}
+
+/* Form en alto contraste */
+
+.app-container.high-contrast .url-form {
+    background-color: #020617;
+    border-color: #1d283a;
+}
+
+.app-container.high-contrast .url-form input[type="url"] {
+    background-color: #020617;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+.app-container.high-contrast .url-form button {
+    background-color: #38bdf8;
+    color: #020617;
+}
+
+/* ───────────────── BARRA ACCESIBILIDAD ───────────────── */
+
+.accessibility-toolbar {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.75rem;
+}
+
+.accessibility-toolbar span {
+    font-weight: 600;
+}
+
+.accessibility-toolbar button {
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid #4b5563;
+    background-color: #020617;
+    cursor: pointer;
+    font-size: 0.95rem;
+    min-height: 40px;
+    color: #e5e7eb;
+}
+
+.accessibility-toolbar button:hover {
+    background-color: #111827;
+}
+
+.accessibility-toolbar button[aria-pressed="true"] {
+    background-color: #3b82f6;
+    color: #0b1120;
+    border-color: #60a5fa;
+}
+
+/* Alto contraste / daltónicos */
+
+.app-container.high-contrast .accessibility-toolbar button {
+    background-color: #020617;
+    border-color: #475569;
+}
+
+.app-container.high-contrast .accessibility-toolbar button[aria-pressed="true"] {
+    background-color: #38bdf8;
+    color: #020617;
+}
+
+/* ───────────────── READER (visor de páginas) ───────────────── */
+
+.reader-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* CABECERA FIJA DEL VISOR (banner) */
+
+.reader-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: linear-gradient(135deg, #1e293b, #020617);
+    border-radius: 18px;
+    padding: 1.25rem 1.75rem;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.85);
+    border: 1px solid #1f2937;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.reader-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    letter-spacing: 0.03em;
+}
+
+.reader-url {
+    margin: 0.35rem 0 0 0;
+    font-size: 0.95rem;
+    color: #9ca3af;
+    word-break: break-all;
+}
+
+/* Botón volver */
+
+.reader-header button {
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid #4b5563;
+    background-color: #020617;
+    cursor: pointer;
+    font-size: 0.95rem;
+    min-height: 40px;
+    color: #e5e7eb;
+}
+
+.reader-header button:hover {
+    background-color: #111827;
+}
+
+/* Cabecera en modo daltónicos / alto contraste */
+
+.app-container.high-contrast .reader-header {
+    background: linear-gradient(135deg, #020617, #0b1120);
+    border-color: #1f2937;
+}
+
+.app-container.high-contrast .reader-header button {
+    background-color: #020617;
+    border-color: #4b5563;
+}
+
+/* Layout principal: sidebar + contenido */
+
+.reader-main {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1rem;
+    margin-top: 0.85rem;
+}
+
+/* Responsive: columna única en pantallas pequeñas */
+
+@media (max-width: 900px) {
+    .reader-main {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Sidebar landmarks */
+
+.reader-sidebar {
+    background-color: #020617;
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+    border: 1px solid #1f2937;
+    font-size: 0.96rem;
+}
+
+.reader-sidebar h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+}
+
+/* Contenido visor */
+
+.reader-content {
+    background-color: #020617;
+    border-radius: 16px;
+    padding: 1rem 1.35rem;
+    border: 1px solid #1f2937;
+    line-height: 1.6;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* Tarjetas en alto contraste / daltónicos */
+
+.app-container.high-contrast .reader-sidebar,
+.app-container.high-contrast .reader-content {
+    background-color: #020617;
+    border-color: #1d283a;
+}
+
+/* ───────────────── LISTA DE LANDMARKS ───────────────── */
+
+.landmarks-list {
+    padding-left: 1.2rem;
+    margin: 0.5rem 0 0 0;
+}
+
+.landmarks-list li {
+    margin-bottom: 0.25rem;
+}
+
+/* ───────────────── VISOR HTML ───────────────── */
+
+.accessible-viewer {
+    max-width: 100%;
+    font-size: 1rem;
+}
+
+.accessible-viewer h1,
+.accessible-viewer h2,
+.accessible-viewer h3,
+.accessible-viewer h4,
+.accessible-viewer h5,
+.accessible-viewer h6 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #e5e7eb;
+}
+
+.accessible-viewer p {
+    margin: 0.5rem 0;
+}
+
+/* Imágenes adaptadas */
+
+.accessible-viewer img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ───────────────── MENSAJES DE ESTADO ───────────────── */
+
+.reader-main p[role="alert"],
+.home-main p[role="alert"] {
+    background-color: #1e293b;
+    color: #e5e7eb;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #4b5563;
+}
+
+/* Alertas en alto contraste / daltónicos */
+
+.app-container.high-contrast .reader-main p[role="alert"],
+.app-container.high-contrast .home-main p[role="alert"] {
+    background-color: #020617;
+    color: #facc15;
+    border-color: #facc15;
+}
