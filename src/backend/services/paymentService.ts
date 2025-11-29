@@ -1,6 +1,7 @@
 import { createPaymentMiddleware } from '@bsv/payment-express-middleware'
 import { createAuthMiddleware } from '@bsv/auth-express-middleware'
 import { getWallet } from './bsvWallet'
+import { shouldSkipPayment } from '../testConfig'
 import { Request, Response, NextFunction } from 'express'
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -20,12 +21,20 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
 
 export async function paymentMiddleware(req: Request, res: Response, next: NextFunction) {
     try {
+        // Modo test: saltar pago y simular éxito
+        if (shouldSkipPayment()) {
+            (req as any).payment = {
+                satoshisPaid: 1,
+                txid: 'TESTMODE_DUMMY_TXID',
+                skipped: true
+            }
+            return next()
+        }
         const wallet = await getWallet()
         const middleware = createPaymentMiddleware({
             wallet,
-            calculateRequestPrice: (req: any) => {
-                return 10
-            }
+            // Precio reducido a 1 satoshi para alinearse con UI
+            calculateRequestPrice: (_req: any) => 1
         })
 
         middleware(req, res, next)

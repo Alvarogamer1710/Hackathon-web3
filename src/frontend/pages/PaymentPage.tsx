@@ -18,6 +18,7 @@ const PaymentPage: React.FC<PaymentProps> = ({ onPaymentSuccess, onLogout }) => 
         setStatus("Iniciando proceso de pago...");
 
         try {
+            
             // 1. Conectar con la Wallet del usuario (ej. Yours Wallet, BSV Desktop Wallet)
             const wallet = new WalletClient('json-api', 'localhost'); // Intenta conectar a wallet local/extensión
             // Nota: En un entorno real, esto podría requerir configuración específica del adaptador

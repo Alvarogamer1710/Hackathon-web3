@@ -3,6 +3,6 @@
     "id": 1,
     "email": "admin@test.com",
     "password": "123",
-    "hasPaid": true
+    "hasPaid": false
   }
 ]

@@ -34,3 +34,14 @@ export async function getWallet(): Promise<Wallet> {
 
     return walletInstance
 }
+
+export function getServerIdentityKey(): string {
+    const privateKeyHex = process.env.PRIVATE_KEY
+    if (!privateKeyHex) {
+        throw new Error('PRIVATE_KEY no encontrada en .env (configúrala).')
+    }
+    // Derivar la identity key pública (usada para BRC-29 counterparty)
+    const privateKey = PrivateKey.fromHex(privateKeyHex)
+    const keyDeriver = new KeyDeriver(privateKey)
+    return keyDeriver.identityKey.toString()
+}

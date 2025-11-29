@@ -1,9 +1,10 @@
 import { Router } from 'express'
-import { paymentMiddleware } from '../services/paymentService'
+import { authMiddleware, paymentMiddleware } from '../services/paymentService'
 
 const router = Router()
 
-router.post('/verify', paymentMiddleware, (req: any, res) => {
+// Orden correcto: primero autenticación, luego pago
+router.post('/verify', authMiddleware, paymentMiddleware, (req: any, res) => {
     const paymentInfo = req.payment
     const identity = req.auth?.identityKey
 

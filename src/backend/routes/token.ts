@@ -4,7 +4,8 @@ import { issueAccessibilityToken } from '../services/tokenService'
 
 const router = Router()
 
-router.post('/issue', paymentMiddleware, async (req: any, res) => {
+// Orden correcto: auth -> payment
+router.post('/issue', authMiddleware, paymentMiddleware, async (req: any, res) => {
     try {
         const { pageUrl, score } = req.body
         const identityKey = req.auth?.identityKey

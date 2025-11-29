@@ -32,7 +32,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "setup-wallet": "ts-node src/scripts/setupWallet.ts",
-    "server": "nodemon --exec ts-node src/backend/index.ts",
+    "server": "nodemon --exec ts-node --project tsconfig.backend.json src/backend/index.ts",
     "dev": "concurrently \"npm run server\" \"npm start\""
   },
   "eslintConfig": {

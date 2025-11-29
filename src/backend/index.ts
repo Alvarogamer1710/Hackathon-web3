@@ -6,6 +6,10 @@ import puppeteer from "puppeteer-extra";
 import { Browser } from "puppeteer";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import AxeBuilder from "@axe-core/puppeteer";
+import { getUsers, saveUsers, User } from "./services/userService";
+import paymentsRouter from "./routes/payments";
+import tokenRouter from "./routes/token";
+import { getServerIdentityKey } from "./services/bsvWallet";
 
 dotenv.config();
 
@@ -22,6 +26,10 @@ app.use(
     cors({
         origin: true,
         credentials: false,
+        exposedHeaders: [
+            'x-bsv-payment-derivation-prefix',
+            'x-bsv-payment-satoshis-required'
+        ]
     })
 );
 
@@ -40,6 +48,62 @@ app.get("/api/health", (_req: Request, res: Response) => {
         ok: true,
         message: "Backend de Access4Vision en marcha",
     });
+});
+
+// Endpoint para entregar la identityKey pública del servidor (para derivaciones BRC-29)
+app.get('/api/wallet-info', (req: Request, res: Response) => {
+    try {
+        const identityKey = getServerIdentityKey()
+        res.json({ ok: true, identityKey })
+    } catch (e: any) {
+        res.status(500).json({ ok: false, error: e.message })
+    }
+});
+
+// Montar routers de pagos y tokens
+app.use('/api/payments', paymentsRouter);
+app.use('/api/tokens', tokenRouter);
+
+// --- AUTENTICACIÓN SIMPLE (migrada desde server.js)
+app.post('/api/login', (req: Request, res: Response) => {
+    const { email, password } = req.body as { email?: string; password?: string };
+    const users = getUsers();
+
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+        // No enviar la contraseña de vuelta
+        const { password: _p, ...safeUser } = user as any;
+        res.json({ success: true, user: safeUser });
+    } else {
+        res.status(401).json({ success: false, message: "Credenciales incorrectas" });
+    }
+});
+
+app.post('/api/register', (req: Request, res: Response) => {
+    const { email, password } = req.body as { email?: string; password?: string };
+    if (!email || !password) {
+        return res.status(400).json({ success: false, message: 'Faltan email o password' });
+    }
+
+    const users = getUsers();
+
+    if (users.find(u => u.email === email)) {
+        return res.status(400).json({ success: false, message: "El usuario ya existe" });
+    }
+
+    const newUser: User = {
+        id: Date.now(),
+        email,
+        password,
+        hasPaid: false,
+    };
+
+    users.push(newUser);
+    saveUsers(users);
+
+    const { password: _p, ...safeUser } = newUser as any;
+    res.json({ success: true, user: safeUser });
 });
 
 // Ruta principal
